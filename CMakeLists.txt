@@ -4,7 +4,8 @@
 
 cmake_minimum_required(VERSION 3.12)
 set(CMAKE_CXX_STANDARD 17)
-
+set(CUDA_VERBOSE_BUILD ON)
+set(CMAKE_CUDA_FLAGS_DEBUG "-g -G")
 
 
 #####################
@@ -19,19 +20,32 @@ set(LOCAL_PROJECT_DESCRIPTION "Description")
 # Header files (relative to "include" directory)
 set(HEADERS
     cuda-voxel-raytracing.h
+
     application/application.h
     graphics/window.h
+    graphics/camera.h
+    graphics/raytracing/ray-generation.cuh
+    graphics/raytracing/ray-tracing.cuh
+    math/matrix_math.cuh
+    math/vector_math.cuh
+    math/rt_math.cuh
     util/render-data-displayer.h
+    util/grid-layout.h
+    util/common.cuh
     util/buffer.cuh
     util/log.h
+    voxel/material.h
+    voxel/chunk.h
 )
 
 # Source files (relative to "src" directory)
 set(SOURCES
     application/application.cpp
     graphics/window.cpp
+    graphics/camera.cpp
     util/log.cpp
     util/render-data-displayer.cpp
+    util/grid-layout.cpp
     util/buffer.cu
     main.cu
 )
@@ -39,6 +53,7 @@ set(SOURCES
 # Compiler definitions
 set(DEFINES
     -DGLEW_STATIC
+    -DCMAKE_CUDA_FLAGS="-arch=sm_60"
 )
 
 # Compiler options
