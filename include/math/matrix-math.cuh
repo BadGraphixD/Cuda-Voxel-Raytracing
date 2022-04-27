@@ -2,7 +2,7 @@
 
 #include <cuda_runtime.h>
 
-#include "math/vector_math.cuh"
+#include "math/vector-math.cuh"
 
 // mat2x2
 

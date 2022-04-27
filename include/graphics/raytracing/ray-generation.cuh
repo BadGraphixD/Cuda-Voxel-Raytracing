@@ -1,7 +1,6 @@
 #pragma once
 
 #include "util/common.cuh"
-#include "util/buffer.cuh"
 
 __device__ inline static void createRay(Ray& ray, const float& x, const float& y, const Payload& payload) {
 	ray.org = payload.camera.position;
@@ -11,12 +10,18 @@ __device__ inline static void createRay(Ray& ray, const float& x, const float& y
 			mul(payload.camera.vertical, 1.0f - y / (float)payload.height)
 		)), ray.org
 	));
+	ray.calcInvDir();
 }
 
 __global__ void generateRays(Buffer<Ray> rays, Buffer<Payload> payloadBuffer) {
-    EXCLUDE_PIXELS_OUTSIDE_FRAME(
+	int x = XCOORD;
+    int y = YCOORD;
+    const Payload payload = payloadBuffer.get();
+
+    if (x < payload.width && y < payload.height) {
+		int pid = y * payload.width + x;
         Ray ray;
         createRay(ray, x, y, payload);
         rays.set(pid, ray);
-    );
+    }
 }

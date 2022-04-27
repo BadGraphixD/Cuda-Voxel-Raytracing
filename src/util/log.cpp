@@ -5,6 +5,13 @@
 #include <ctime>
 #include <sstream>
 
+void gpuAssert(cudaError_t code, const char* file, int line) {
+	if (code != cudaSuccess) {
+		fprintf(stderr, "CUDA error: %s (#%d) %s %d\n", cudaGetErrorString(code), code, file, line);
+		std::cin.get();
+	}
+}
+
 static std::string date() {
 
     auto t = std::time(nullptr);

@@ -39,11 +39,11 @@ void Window::close() {
 }
 
 void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    // ((Window*)glfwGetWindowUserPointer(window))->input->keys[key] = action != GLFW_RELEASE; // TODO: fix invalid ptr bug
+    ((Window*)glfwGetWindowUserPointer(window))->input.keys[key] = action != GLFW_RELEASE;
 }
 
 void Window::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
-    // ((Window*)glfwGetWindowUserPointer(window))->input->buttons[button] = action != GLFW_RELEASE; // TODO: fix invalid ptr bug
+    ((Window*)glfwGetWindowUserPointer(window))->input.buttons[button] = action != GLFW_RELEASE;
 }
 
 void Window::errorCallback(int error, const char* msg) {

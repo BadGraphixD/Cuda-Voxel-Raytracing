@@ -2,7 +2,7 @@
 
 #include <cuda_runtime.h>
 
-#include "math/matrix_math.cuh"
+#include "math/matrix-math.cuh"
 
 #define NEAR_CLIP_DIST 0.1f
 #define FAR_CLIP_DIST 1000.0f
@@ -11,14 +11,22 @@
 
 struct Ray {
 	float3 org, dir;
+	float3 invDir;
 
 	__device__ inline float3 at(const float& t) const {
 		return add(org, mul(dir, t));
+	}
+
+	__host__ __device__ inline void calcInvDir() {
+		invDir = div(1.0, dir);
 	}
 };
 
 struct AABB {
 	float3 min, max;
+
+	__device__ inline AABB(float3 min, float3 max)
+		: min(min), max(max) {}
 
 	__host__ __device__ inline float3 center() const {
 		return mul(add(min, max), 0.5f);

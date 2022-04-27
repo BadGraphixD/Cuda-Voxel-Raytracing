@@ -26,11 +26,14 @@ set(HEADERS
     graphics/camera.h
     graphics/raytracing/ray-generation.cuh
     graphics/raytracing/ray-tracing.cuh
-    math/matrix_math.cuh
-    math/vector_math.cuh
-    math/rt_math.cuh
+    math/matrix-math.cuh
+    math/ray-aabb-intersection.cuh
+    math/ray-octree-intersection.cuh
+    math/vector-math.cuh
+    math/rt-math.cuh
     util/render-data-displayer.h
     util/grid-layout.h
+    util/input.h
     util/common.cuh
     util/buffer.cuh
     util/log.h
@@ -46,7 +49,10 @@ set(SOURCES
     util/log.cpp
     util/render-data-displayer.cpp
     util/grid-layout.cpp
+    util/input.cpp
     util/buffer.cu
+    voxel/material.cpp
+    voxel/chunk.cpp
     main.cu
 )
 
@@ -67,7 +73,7 @@ project(${LOCAL_PROJECT_NAME}
         DESCRIPTION ${LOCAL_PROJECT_DESCRIPTION}
         LANGUAGES CXX CUDA)
 
-add_executable(${LOCAL_PROJECT_NAME})
+add_executable(${LOCAL_PROJECT_NAME} src/main.cu)
 
 list(TRANSFORM HEADERS PREPEND "include/")
 list(TRANSFORM SOURCES PREPEND "src/")

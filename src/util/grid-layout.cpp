@@ -1,11 +1,11 @@
 #include "util/grid-layout.h"
 
-GridLayout::GridLayout(uint2 blockThreads, const Window& window) {
+GridLayout::GridLayout(unsigned int blockThreadsX, unsigned int blockThreadsY, const Window& window) {
 
-    threads = dim3(blockThreads.x, blockThreads.y);
+    threads = dim3(blockThreadsX, blockThreadsY);
 
-    int blocksX = (window.getWidth()  + blockThreads.x - 1) / blockThreads.x;
-    int blocksY = (window.getHeight() + blockThreads.y - 1) / blockThreads.y;
+    int blocksX = (window.getWidth()  + blockThreadsX - 1) / blockThreadsX;
+    int blocksY = (window.getHeight() + blockThreadsY - 1) / blockThreadsY;
 
     blocks = dim3(blocksX, blocksY);
 }

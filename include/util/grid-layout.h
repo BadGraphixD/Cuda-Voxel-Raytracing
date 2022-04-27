@@ -8,5 +8,5 @@ struct GridLayout {
     dim3 threads, blocks;
 
     GridLayout() = default;
-    GridLayout(uint2 blockThreads, const Window& window);
+    GridLayout(unsigned int blockThreadsX, unsigned int blockThreadsY, const Window& window);
 };

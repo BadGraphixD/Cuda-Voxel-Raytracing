@@ -1,16 +1,27 @@
 #pragma once
 
 #include "util/common.cuh"
-#include "util/buffer.cuh"
 
-__global__ void rayToUChar3(Buffer<Ray> rays, Buffer<uchar3> result, Buffer<Payload> payloadBuffer) {
-    EXCLUDE_PIXELS_OUTSIDE_FRAME(
+__global__ void traceRays(Buffer<Ray> rays, Octree octree, Buffer<Node> nodes, Buffer<Material> materials, Buffer<float3> frame, Buffer<Payload> payloadBuffer) {
+    int x = XCOORD;
+    int y = YCOORD;
+    const Payload payload = payloadBuffer.get();
+
+    if (x < payload.width && y < payload.height) {
+		int pid = y * payload.width + x;
+
         Ray ray = rays.get(pid);
 
-        result.set(pid, {
-            static_cast<unsigned char>(__saturatef(ray.dir.x) * 255.0f),
-            static_cast<unsigned char>(__saturatef(ray.dir.y) * 255.0f),
-            static_cast<unsigned char>(__saturatef(ray.dir.z) * 255.0f)
-        });
-    );
+        const int voxel = octree.traverse(ray, nodes.getPtr(), materials.getPtr());
+
+        // __syncthreads();
+
+        float3 color = ray.dir;
+
+        if (voxel != -1) {
+            color = materials.get(nodes.get(voxel).materialIdx).color;
+        }
+
+        frame.set(pid, color);
+    }
 }

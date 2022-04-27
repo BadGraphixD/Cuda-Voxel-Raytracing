@@ -89,23 +89,27 @@ public:
 		else cudaMemset(ptr, value, getByteSize());
 	}
 
-	__host__ __device__ void set(const unsigned int& idx, const T& value) {
+	__host__ __device__ inline void set(const unsigned int& idx, const T& value) {
 		ptr[idx] = value;
 	}
 
-	__host__ __device__ T get(const unsigned int& idx = 0) const {
+	__host__ __device__ inline T get(const unsigned int& idx = 0) const {
 		return ptr[idx];
 	}
 
-	__host__ __device__ T* getPtr() const {
+	__host__ __device__ inline T* getPtr() const {
 		return ptr;
 	}
 
-	__host__ __device__ unsigned int getSize() const {
+	__host__ __device__ inline T* getPtrOf(const unsigned int& idx = 0) const {
+		return &ptr[idx];
+	}
+
+	__host__ __device__ inline unsigned int getSize() const {
 		return size;
 	}
 
-	__host__ __device__ size_t getByteSize() const {
+	__host__ __device__ inline size_t getByteSize() const {
 		return size * sizeof(T);
 	}
     
@@ -125,5 +129,4 @@ public:
 	}
 	
 	void destroyBuffers();
-
 };

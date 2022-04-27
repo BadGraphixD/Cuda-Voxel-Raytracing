@@ -10,6 +10,10 @@
 #define TO_RADIANS (PI / 180.0f)
 #define TO_DEGREES (180.0f / PI)
 
+#define make_float4(x, y, z, w) {(x),(y),(z),(w)}
+#define make_float3(x, y, z) {(x),(y),(z)}
+#define make_float2(x, y) {(x),(y)}
+
 __host__ __device__ inline float3 directionFromAngles(float pitch, float yaw) {
 	pitch *= TO_RADIANS;
 	yaw *= TO_RADIANS;
